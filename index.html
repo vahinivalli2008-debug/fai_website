@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClubLogic | Campus Club Eligibility Reasoner</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home"><span class="logo">CL</span><span><b>ClubLogic</b><small>Campus Club Eligibility Reasoner</small></span></a>
+  <nav>
+    <a href="#home">Home</a><a href="#checker">Eligibility</a><a href="#clubs">Clubs</a>
+    <a href="#simulator">What-if</a><a href="#tests">Test cases</a><a href="#logic">Prolog rules</a><a href="#about">About</a>
+  </nav>
+</header>
+<main>
+  <section id="home" class="hero">
+    <div class="eyebrow">LOGIC-BASED DECISION SUPPORT</div>
+    <h1>Find the campus club<br><span>you are eligible for.</span></h1>
+    <p>Enter your CGPA, attendance and interest. ClubLogic checks your details against the four club rules and explains every failed condition.</p>
+    <div class="actions"><a class="btn primary" href="#checker">Check eligibility</a><a class="btn secondary" href="#logic">Explore Prolog logic</a></div>
+    <div class="stats"><div><strong>4</strong><span>Campus clubs</span></div><div><strong>3</strong><span>Conditions checked</span></div><div><strong>100%</strong><span>Rule transparency</span></div></div>
+  </section>
+
+  <section id="checker" class="section">
+    <div class="section-head"><div><div class="eyebrow">STUDENT CHECKER</div><h2>Check your eligibility</h2><p>All three conditions must pass for the selected club.</p></div><span class="tag">CGPA is out of 10</span></div>
+    <div class="panel form-panel">
+      <form id="eligibility-form">
+        <label>Choose a campus club<select id="club" required>
+          <option value="coding">Coding Club</option><option value="robotics">Robotics Club</option>
+          <option value="literary">Literary Club</option><option value="eco">Eco Club</option>
+        </select></label>
+        <div class="two">
+          <label>Your CGPA (0–10)<input id="gpa" type="number" min="0" max="10" step="0.1" value="8.5" required></label>
+          <label>Attendance percentage (0–100)<input id="attendance" type="number" min="0" max="100" step="1" value="90" required></label>
+        </div>
+        <label>Your main interest<select id="interest" required>
+          <option value="programming">Programming</option><option value="electronics">Electronics</option>
+          <option value="writing">Writing</option><option value="environment">Environment</option>
+        </select></label>
+        <button class="btn primary" type="submit">Run eligibility check</button>
+      </form>
+      <div id="result" class="result empty" aria-live="polite"><div class="result-icon">✓</div><h3>Your result will appear here</h3><p>Complete the form and run the reasoner.</p></div>
+    </div>
+    <div id="proof" class="panel proof hidden"><h3>Proof / condition trace</h3><div id="proof-list"></div></div>
+  </section>
+
+  <section id="clubs" class="section">
+    <div class="eyebrow">CLUB CATALOG</div><h2>Club requirements</h2><p class="muted">These values are copied from your supplied <code>eligibility.pl</code> program.</p>
+    <div id="club-cards" class="cards"></div>
+  </section>
+
+  <section id="simulator" class="section">
+    <div class="eyebrow">WHAT-IF SIMULATOR</div><h2>Try changing your details</h2><p class="muted">Move the sliders to see how the same Prolog conditions affect your selected club.</p>
+    <div class="panel">
+      <div class="slider-row"><label for="sim-gpa">CGPA <b id="sim-gpa-value">7.0</b></label><input id="sim-gpa" type="range" min="0" max="10" step="0.1" value="7"></div>
+      <div class="slider-row"><label for="sim-att">Attendance <b id="sim-att-value">80%</b></label><input id="sim-att" type="range" min="0" max="100" step="1" value="80"></div>
+      <label>Interest<select id="sim-interest"><option value="programming">Programming</option><option value="electronics">Electronics</option><option value="writing">Writing</option><option value="environment">Environment</option></select></label>
+      <label>Club<select id="sim-club"><option value="coding">Coding Club</option><option value="robotics">Robotics Club</option><option value="literary">Literary Club</option><option value="eco">Eco Club</option></select></label>
+      <div id="sim-result" class="sim-result"></div>
+    </div>
+  </section>
+
+  <section id="tests" class="section">
+    <div class="eyebrow">VALIDATION</div><h2>Test cases</h2><p class="muted">Use these examples to verify that the website follows your Prolog rules.</p>
+    <div class="panel table-wrap"><table><thead><tr><th>Club</th><th>CGPA</th><th>Attendance</th><th>Interest</th><th>Expected result</th><th></th></tr></thead><tbody id="test-rows"></tbody></table></div>
+  </section>
+
+  <section id="logic" class="section">
+    <div class="eyebrow">KNOWLEDGE BASE</div><h2>Your Prolog rules</h2><p class="muted">This is the logic used by the website, represented in Prolog syntax.</p>
+    <div class="panel code-panel"><div class="code-head"><span>eligibility.pl</span><button id="copy-code" class="btn small secondary">Copy code</button></div><pre id="prolog-code"></pre></div>
+    <div class="panel repl">
+      <h3>Simple Prolog query tester</h3><p class="muted">Enter a query in the format shown below.</p>
+      <code>check_eligibility(coding, 8.5, 90, programming, Result, Reasons).</code>
+      <input id="query" value="check_eligibility(coding, 8.5, 90, programming, Result, Reasons)." aria-label="Prolog query">
+      <button id="run-query" class="btn primary">Run query</button><pre id="query-output">Ready for a query.</pre>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="eyebrow">PROJECT INFORMATION</div><h2>About ClubLogic</h2>
+    <div class="panel about-grid"><div><h3>Project objective</h3><p>ClubLogic is a student-facing eligibility checker based on a small Prolog knowledge base. It helps students understand whether they satisfy a campus club's CGPA, attendance and interest requirements.</p></div><div><h3>How it works</h3><ol><li>Student selects a club and enters details.</li><li>The reasoner compares each detail with the club facts.</li><li>Every failed condition is collected as a reason.</li><li>If the reasons list is empty, the result is eligible; otherwise, it is not eligible.</li></ol></div></div>
+    <p class="footnote">Note: This browser application mirrors the rules in your Prolog file using JavaScript. To execute the original Prolog program itself, run <code>eligibility.pl</code> in SWI-Prolog.</p>
+  </section>
+</main>
+<footer>ClubLogic · Campus Club Membership Eligibility Reasoner</footer>
+<script src="js/app.js"></script>
+</body>
+</html>
